@@ -11,21 +11,29 @@ public class Main {
         Empleado auxEmpleado;
         int extension,mesesDeContrato, tipo;
         Empresa papitas = new Empresa("Papitas");
-        String menuPrincipal = "\n1. Agregar Empleado\n" +
+        String menuPrincipal = "\n-------------------------Menú-------------------------\n" +
+                "Por favor, seleccione una de las siguientes opciones:\n\n" +
+                "1. Agregar Empleado\n" +
                 "2. Despedir Empleado\n" +
                 "3. Ver lista de empleados\n" +
                 "4. Calcular sueldo\n" +
                 "5. Mostrar Totales\n" +
                 "0. Salir\n"+
                 "Su opción : ";
-        byte op;
+        byte op = 6;
         do {
-            System.out.print(menuPrincipal);
-            op = in.nextByte();in.nextLine();
+            try {
+                System.out.print(menuPrincipal);
+                op = in.nextByte(); in.nextLine();
+            }catch(InputMismatchException ime) {
+                System.out.println("\nSólo puedes ingresar números.");
+                in.next();
+            }
+
             switch (op) {
                 case 1:
                     try {
-                        System.out.println("-------Agregando Empleado--------");
+                        System.out.println("\n-------Agregando Empleado--------");
                         System.out.print("\nNombre: ");
                         nombre = in.nextLine();
                         if (nombre.isEmpty())
@@ -85,7 +93,7 @@ public class Main {
                     break;
                 case 2:
                     try{
-                        System.out.println("Ingrese el nombre de empleado a despedir : ");
+                        System.out.println("\nIngrese el nombre de empleado a despedir : ");
                         nombre = in.nextLine();
                         if (nombre.isEmpty())
                             throw new EmptyFieldException("Debe ingresar un nombre.");
@@ -96,14 +104,14 @@ public class Main {
                     }
                     break;
                 case 3:
-                    System.out.println("-------Mostrando empleados--------");
+                    System.out.println("\n-------Mostrando empleados--------");
                     for (Empleado e : papitas.getPlanilla()){
                         System.out.println(e.toString());
                     }
                     break;
                 case 4:try{
                     boolean existeEmpleado = false;
-                    System.out.println("-------Calcular salario--------");
+                    System.out.println("\n-------Calcular salario--------");
                     System.out.print("Ingrese el nombre del empleado : ");
                     nombre = in.nextLine();
                     if (nombre.isEmpty())
@@ -124,7 +132,7 @@ public class Main {
                 }
                     break;
                 case 5:
-                    System.out.print("-------Mostrando totales--------");
+                    System.out.print("\n-------Mostrando totales--------");
                     System.out.println(CalculadoraImpuestos.mostrarTotales());
                     break;
                 default:
@@ -143,7 +151,7 @@ public class Main {
                 throw new EmptyFieldException("Debe ingresar un nombre de documento.");
             else for (Documento doc: empleado.getDocumentos()){
                 if (doc.getNombre().equalsIgnoreCase(nombreDeDocumento))
-                    throw new ExistingDocumentException("El documento ya ha sido ingresado.");
+                    throw new ExistingDocumentException("\nEl documento ya ha sido ingresado.");
             }
             System.out.print("Ingrese el número de documento: ");
             numeroDeDocumento = in.nextLine();
