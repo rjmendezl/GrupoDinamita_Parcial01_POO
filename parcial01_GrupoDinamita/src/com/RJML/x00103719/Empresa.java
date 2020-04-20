@@ -1,23 +1,25 @@
 package com.RJML.x00103719;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Empresa{
 
     private String nombre;
     protected ArrayList<Empleado> planilla;
 
-    public Empresa(String nombre, ArrayList<Empleado> planilla) {
+    public Empresa(String nombre) {
         this.nombre = nombre;
-        this.planilla = planilla;
+        this.planilla = new ArrayList<>();
     }
+
+
+
 
     public String getNombre() {
         return nombre;
     }
 
-    public List<Empleado> getPlanilla() {
+    public ArrayList<Empleado> getPlanilla() {
         return planilla;
     }
 
@@ -26,15 +28,18 @@ public class Empresa{
 
     }
 
-    public void quitEmpleado(String nombre){
-        planilla.removeIf(a -> {
-            if (a.getNombre().equals(nombre)) {
-                System.out.println("---Se ha eliminado con exito--- ");
-                return true;
-            } else {
-                return false;
+    public void quitEmpleado(String nombre) throws NotExistingEmployeeException {
+        boolean existeEmpleado = false;
+        for (Empleado empleado : planilla){
+            if (empleado.getNombre().equalsIgnoreCase(nombre)) {
+                existeEmpleado = true;
+                break;
             }
-        });
+        }
+        if (!existeEmpleado)
+            throw new NotExistingEmployeeException("El empleado no está registrado en planilla. ");
+        else
+            planilla.removeIf(empleado -> empleado.getNombre().equalsIgnoreCase(nombre));
     }
 
 }
